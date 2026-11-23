@@ -130,4 +130,439 @@
     </div>
     <h3 class="text-lg font-semibold text-white mb-1">Nenhum equipamento encontrado</h3>
     <p class="text-sm text-muted mb-5">Tente buscar por outro número de etiqueta, fabricante ou limpe os filtros ativos.</p>
-    <button id="btn-clear-filters" type="button" class="px-4 py-2.5
+    <button id="btn-clear-filters" type="button" class="px-4 py-2.5 rounded-xl bg-electric text-bg font-semibold text-sm hover:brightness-110 transition-all cursor-pointer">
+      Mostrar todos os 59 itens
+    </button>
+  </div>
+</main>
+
+<footer class="border-t border-border bg-bg/80 mt-12 no-print">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-muted">
+    <span><strong class="text-white font-semibold">Museu da Elétrica</strong> · Projeto de extensão da Universidade do Estado do Rio de Janeiro (UERJ)</span>
+    <span class="font-mono text-electric/90">Acervo digital · 59 peças catalogadas</span>
+  </div>
+</footer>
+
+<div id="item-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-sm no-print" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="bg-surface border border-border rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-border bg-bg/60">
+      <div class="flex items-center gap-3">
+        <span id="modal-badge-id" class="px-2.5 py-1 rounded-lg bg-electric text-bg font-mono font-bold text-xs sm:text-sm">#001</span>
+        <span id="modal-badge-cat" class="px-2.5 py-1 rounded-lg bg-electricDim border border-electric/30 text-electric font-mono text-xs">Categoria</span>
+      </div>
+      <button id="btn-close-modal" type="button" aria-label="Fechar ficha" class="p-2 rounded-xl text-muted hover:text-white hover:bg-surfaceHover transition-colors cursor-pointer">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6 6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="overflow-y-auto p-5 sm:p-8 space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+        <div class="md:col-span-5 space-y-4">
+          <div class="aspect-square rounded-2xl bg-bg border border-border flex flex-col items-center justify-center relative overflow-hidden">
+            <div id="modal-illustration" class="w-full h-full flex items-center justify-center"></div>
+            <div class="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-bg/80 backdrop-blur-sm font-mono text-[10px] text-muted" id="modal-ref-file">IMG: 001.JPG</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-bg border border-border flex items-center gap-4">
+            <div id="modal-qrcode" class="w-20 h-20 bg-white p-1.5 rounded-lg shrink-0 flex items-center justify-center"></div>
+            <div class="min-w-0 flex-1">
+              <div class="font-mono text-xs text-electric font-semibold mb-1">QR Code da Exposição</div>
+              <p class="text-xs text-muted leading-snug mb-2">Aponte a câmera para acessar diretamente a ficha <span id="modal-qr-id" class="font-mono text-white">#001</span>.</p>
+              <button id="btn-copy-link" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface hover:bg-surfaceHover border border-border text-xs font-mono text-white transition-colors cursor-pointer">
+                <svg class="w-3.5 h-3.5 text-electric" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                <span id="copy-link-label">Copiar link da peça</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="md:col-span-7 space-y-5">
+          <div>
+            <h2 id="modal-title" class="text-2xl sm:text-3xl font-bold text-white leading-tight mb-4">Nome do Equipamento</h2>
+            <div class="grid grid-cols-2 gap-3 p-4 rounded-xl bg-bg border border-border font-mono text-xs">
+              <div>
+                <span class="block text-muted uppercase text-[10px] mb-0.5">Etiqueta / Tombo</span>
+                <span id="modal-meta-id" class="text-white font-semibold">001</span>
+              </div>
+              <div>
+                <span class="block text-muted uppercase text-[10px] mb-0.5">Época Estimada</span>
+                <span id="modal-meta-ano" class="text-white font-semibold">Década de 1980</span>
+              </div>
+              <div class="col-span-2 pt-2 border-t border-border/60">
+                <span class="block text-muted uppercase text-[10px] mb-0.5">Fabricante / Procedência</span>
+                <span id="modal-meta-fab" class="text-electric font-semibold">Fabricante</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-mono text-xs uppercase tracking-wider text-muted mb-2.5">Descrição Museológica & Função Técnica</h3>
+            <div id="modal-desc" class="space-y-3 text-sm sm:text-base text-gray-300 leading-relaxed"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-5 py-3.5 border-t border-border bg-bg/60 flex items-center justify-between gap-2">
+      <button id="btn-prev-item" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-surface hover:bg-surfaceHover border border-border text-xs sm:text-sm font-medium text-white transition-colors cursor-pointer">
+        <span>← Peça anterior</span>
+      </button>
+      <span id="modal-position" class="font-mono text-xs text-muted">1 de 59</span>
+      <button id="btn-next-item" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-surface hover:bg-surfaceHover border border-border text-xs sm:text-sm font-medium text-white transition-colors cursor-pointer">
+        <span>Próxima peça →</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="qr-modal-backdrop" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-sm overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="qr-sheet-title">
+  <div id="qr-modal-panel" class="bg-surface border border-border rounded-2xl max-w-6xl w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+    <div class="flex flex-wrap items-center justify-between gap-4 px-5 py-4 border-b border-border bg-bg/80 no-print">
+      <div>
+        <h2 id="qr-sheet-title" class="text-lg sm:text-xl font-bold text-white">Etiquetas QR Code · Acervo Completo (59 Peças)</h2>
+        <p class="text-xs text-muted">Cada código aponta para <code class="text-electric font-mono">?id=XXX</code> abrindo automaticamente a ficha da peça.</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="btn-print-qrs" type="button" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-electric text-bg font-semibold text-xs sm:text-sm hover:brightness-110 transition-all cursor-pointer">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"/>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+            <rect x="6" y="14" width="12" height="8"/>
+          </svg>
+          <span>Imprimir Etiquetas</span>
+        </button>
+        <button id="btn-close-qr-sheet" type="button" aria-label="Fechar gerador de QR Codes" class="p-2 rounded-xl text-muted hover:text-white hover:bg-surfaceHover transition-colors cursor-pointer">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6 6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="qr-grid-container" class="overflow-y-auto p-5 sm:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </div>
+</div>
+
+<div id="toast" class="fixed bottom-5 right-5 z-50 hidden items-center gap-2.5 px-4 py-3 rounded-xl bg-electric text-bg font-medium text-sm shadow-xl transition-all no-print">
+  <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+  <span id="toast-message">Link copiado!</span>
+</div>
+
+<script>
+const EQUIPAMENTOS = [
+  { id: "001", nome: "Mostruário Didático: Isolador de Pino com Laço Pré-Formado", categoria: "Isoladores", ano: "Década de 1990", fabricante: "PLP Brasil", descricao: "Conjunto expositor didático montado sobre base de madeira com placa institucional da PLP Brasil ('Desempenho com garantia de qualidade').\nApresenta um isolador pilar/pino de porcelana vitrificada marrom de três saias acoplado a um trecho de cabo condutor protegido e fixado por amarração helicoidal pré-formada, demonstrando a técnica moderna de ancoragem em redes aéreas de distribuição." },
+  { id: "002", nome: "Isolador Bastão Polimérico de Suspensão/Ancoragem", categoria: "Isoladores", ano: "Década de 2000", fabricante: "Não identificado", descricao: "Isolador composto (polimérico) de longo alcance utilizado em linhas de transmissão e distribuição de média e alta tensão.\nPossui núcleo estrutural em fibra de vidro revestido por 18 aletas (saias) de borracha de silicone cinza para aumento da distância de escoamento, com ferragem superior tipo bola (ball) e inferior tipo garfo (clevis) com contrapino. Apresenta desgaste natural nas saias inferiores." },
+  { id: "003", nome: "Isolador de Disco em Vidro Temperado", categoria: "Isoladores", ano: "Década de 1980", fabricante: "Não identificado", descricao: "Unidade isolante de suspensão ou ancoragem fabricada em vidro temperado esverdeado com nervuras concêntricas inferiores para evitar caminhos contínuos de umidade.\nEquipado com campânula superior de ferro fundido galvanizado tipo concha (socket) e trava metálica. Amplamente empregado em cadeias de isoladores de linhas aéreas por permitir fácil inspeção visual de falhas." },
+  { id: "004", nome: "Isolador de Porcelana de Duas Saias", categoria: "Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Corpo isolante robusto confeccionado em porcelana eletrotécnica vitrificada na cor marrom, dotado de duas saias principais de escoamento e cavidade interna para montagem em pino ou suporte.\nProjetado para suportar esforços mecânicos e isolar condutores em redes aéreas e subestações de média tensão." },
+  { id: "005", nome: "Isolador Pilar de Porcelana (Line Post) com Base Metálica", categoria: "Isoladores", ano: "Década de 1980", fabricante: "Não identificado", descricao: "Isolador rígido tipo pilar (line post) em porcelana vitrificada marrom com quatro saias arredondadas e flange/base metálica em ferro fundido fixada na extremidade para montagem direta em cruzetas ou estruturas metálicas.\nOferece elevada rigidez mecânica contra flexão e reduz a ocorrência de radiointerferência em redes de distribuição." },
+  { id: "006", nome: "Isolador de Pino de Porcelana (Duas Saias)", categoria: "Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Isolador de pino em porcelana vitrificada marrom com duas saias, pescoço definido e ranhura superior (cabeça) para acomodação e amarração do cabo condutor.\nComponente clássico das redes primárias de distribuição aérea de energia elétrica." },
+  { id: "007", nome: "Bucha de Passagem de Porcelana (10 kV)", categoria: "Buchas e Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Bucha isolante alongada em porcelana vitrificada marrom com flange central de assentamento e sete saias externas divididas em dois grupos.\nA extremidade interna lisa traz a inscrição original de fábrica 'BUCHA 10KV - 160 A', indicando sua aplicação na travessia isolada de condutores em transformadores ou painéis de média tensão." },
+  { id: "008", nome: "Isolador Castanha (Estai) em Porcelana", categoria: "Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Isolador de tração popularmente conhecido como 'castanha', fabricado em porcelana vitrificada marrom com perfil em 'X' e dois furos ortogonais internos.\nUtilizado nos cabos de aço de estaiamento (ancoragem) de postes para garantir o isolamento elétrico entre a seção superior próxima à rede e a parte inferior acessível ao solo." },
+  { id: "009", nome: "Isolador de Porcelana com Pino Metálico (Fragmentado)", categoria: "Isoladores", ano: "Década de 1960", fabricante: "Não identificado", descricao: "Exemplar histórico de isolador de porcelana vitrificada marrom com marcação '5' gravada na base, montado em haste metálica roscada de aço com porca quadrada.\nApresenta fratura na porção superior do corpo cerâmico, evidenciando a espessura da parede isolante e o método de cimentação ao pino." },
+  { id: "010", nome: "Isolador Castanha (Estai) em Porcelana", categoria: "Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Isolador de estai em porcelana vitrificada marrom com seção transversal em 'X' e canais internos cruzados que trabalham sob compressão mecânica quando os cabos de aço são tracionados.\nPeça fundamental para a segurança operacional em redes aéreas urbanas e rurais." },
+  { id: "011", nome: "Isolador Castanha (Estai) em Porcelana", categoria: "Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Isolador de tração tipo castanha em porcelana vitrificada marrom, projetado para interromper a continuidade elétrica em cabos de sustentação de postes sem comprometer a resistência mecânica do estai." },
+  { id: "012", nome: "Isolador de Pino de Porcelana (Saia Larga)", categoria: "Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Isolador de pino confeccionado em porcelana vitrificada marrom com saia única de grande diâmetro, pescoço para amarração lateral e sulco superior para assentamento do condutor.\nCaracterístico de linhas de distribuição de média tensão." },
+  { id: "013", nome: "Isolador de Pino de Porcelana (Saia Larga)", categoria: "Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Isolador de pino em porcelana vitrificada marrom com saia ampla para proteção contra chuva e sulco superior para passagem do cabo condutor em cruzetas de redes aéreas." },
+  { id: "014", nome: "Isolador de Pino de Porcelana (Saia Larga)", categoria: "Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Isolador de pino em porcelana eletrotécnica marrom com saia larga e cabeça ranhurada, utilizado na sustentação rígida de condutores aéreos de distribuição." },
+  { id: "015", nome: "Isolador de Disco em Porcelana (Garfo-Olhal)", categoria: "Isoladores", ano: "Década de 1980", fabricante: "Não identificado", descricao: "Unidade isolante tipo disco em porcelana vitrificada marrom com campânula superior de ferro fundido galvanizado tipo garfo (clevis) e pino contrapinado.\nPermite a montagem modular em cadeias de suspensão ou ancoragem conforme o nível de tensão da linha." },
+  { id: "017", nome: "Cadeia de Dois Isoladores de Disco em Porcelana", categoria: "Isoladores", ano: "Década de 1980", fabricante: "IB (Isoladores Brasil)", descricao: "Conjunto composto por dois isoladores de disco em porcelana vitrificada marrom acoplados em série, com campânulas metálicas marcadas em relevo com o logotipo 'IB' (Isoladores Brasil).\nExemplo clássico de arranjo em cadeia para aumento da rigidez dielétrica em pontos de ancoragem ou suspensão de redes de média/alta tensão." },
+  { id: "018", nome: "Isolador Castanha (Estai) em Porcelana", categoria: "Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Isolador de estai em porcelana vitrificada marrom exibindo em vista lateral os sulcos longitudinais que guiam o laço do cabo de aço pelo interior da peça cerâmica." },
+  { id: "019", nome: "Bucha de Passagem de Porcelana (Com Ressalto)", categoria: "Buchas e Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Corpo isolante em porcelana vitrificada marrom com flange central de assentamento e ressalto de encaixe na extremidade superior, destinado à isolação de terminais de passagem em transformadores ou cubículos elétricos." },
+  { id: "020", nome: "Bucha de Passagem de Porcelana (Com Trava Lateral)", categoria: "Buchas e Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Corpo cerâmico de bucha isolante em porcelana vitrificada marrom com furo passante axial, flange de vedação e ranhura/trava lateral na borda superior para impedir o giro do terminal condutor." },
+  { id: "021", nome: "Isolador de Pino de Porcelana com Pino Metálico", categoria: "Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Conjunto completo formado por isolador de porcelana vitrificada marrom de três saias com ranhura superior, montado sobre pino reto longo de aço galvanizado com arruela de encosto e porca quadrada para fixação direta em cruzeta." },
+  { id: "022", nome: "Isolador Pilar de Porcelana com Ferragem Cônica", categoria: "Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Isolador em porcelana vitrificada marrom com base recortada para encaixe estrutural e pino metálico superior dotado de chapéu cônico de proteção contra intempéries e porca sextavada." },
+  { id: "023", nome: "Bucha de Passagem de Porcelana Dupla Saia", categoria: "Buchas e Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Bucha isolante simétrica robusta em porcelana vitrificada marrom com flange central de fixação e múltiplas nervuras/saias em ambos os lados, projetada para passagem isolada entre compartimentos." },
+  { id: "024", nome: "Bucha de Passagem de Porcelana com Haste Roscada", categoria: "Buchas e Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Conjunto completo de bucha para transformador de distribuição, composto por corpo em porcelana vitrificada marrom com flange central e haste condutora passante roscada com arruela e porcas de aperto." },
+  { id: "025", nome: "Bucha de Passagem de Porcelana com Conector Terminal", categoria: "Buchas e Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Bucha isolante em porcelana vitrificada marrom equipada com porcas superiores de aperto na haste e grampo conector metálico robusto na base para ligação de barramento ou cabo alimentador." },
+  { id: "026", nome: "Bucha de Passagem de Porcelana (Fragmentada)", categoria: "Buchas e Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Corpo isolante compacto em porcelana vitrificada marrom com flange de assentamento; apresenta lasca na extremidade cilíndrica superior que permite observar a estrutura interna da porcelana vitrificada." },
+  { id: "027", nome: "Bucha de Passagem de Porcelana para Transformador", categoria: "Buchas e Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Bucha isolante compacta em porcelana vitrificada marrom com flange central e haste metálica roscada com porca quadrada na extremidade inferior, típica de enrolamentos de baixa ou média tensão de transformadores." },
+  { id: "028", nome: "Bucha de Passagem de Porcelana com Quatro Saias", categoria: "Buchas e Isoladores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Bucha alongada em porcelana vitrificada marrom com flange de montagem, quatro saias externas para aumento da linha de fuga sob chuva e cilindro liso na porção interna." },
+  { id: "029", nome: "Câmara de Extinção de Arco / Bloco de Contatos", categoria: "Manobra e Controle", ano: "Década de 1960", fabricante: "Não identificado", descricao: "Invólucro em baquelite preta com divisórias internas em grade projetadas para dividir, resfriar e extinguir o arco elétrico durante a abertura de circuitos sob carga, dotado de cinta metálica lateral." },
+  { id: "030", nome: "Disjuntor Termomagnético Unipolar (Padrão NEMA)", categoria: "Disjuntores", ano: "Década de 1980", fabricante: "General Electric (GE)", descricao: "Disjuntor termomagnético monopolar em caixa moldada de baquelite preta (padrão americano NEMA), com marcação 'STRIP GAGE' para gabarito de decapagem do condutor na lateral." },
+  { id: "031", nome: "Disjuntor Termomagnético Unipolar (Padrão NEMA)", categoria: "Disjuntores", ano: "Década de 1980", fabricante: "Não identificado", descricao: "Disjuntor termomagnético monopolar em baquelite preta com rebites metálicos tubulares aparentes e alavanca simples de manobra, amplamente utilizado em quadros de distribuição residenciais e comerciais no Brasil." },
+  { id: "032", nome: "Disjuntor Termomagnético Unipolar 25 A (Linha DLBE)", categoria: "Disjuntores", ano: "Década de 1990", fabricante: "Lorenzetti", descricao: "Disjuntor termomagnético monopolar da linha DLBE com corrente nominal de 25 A marcada na alavanca, carcaça preta e encaixe traseiro adaptado para trilho DIN." },
+  { id: "033", nome: "Disjuntor Termomagnético Unipolar (Ambient Compensated)", categoria: "Disjuntores", ano: "Década de 1980", fabricante: "General Electric (GE)", descricao: "Disjuntor monopolar GE em baquelite preta com compensação de temperatura ambiente calibrada a 40°C ('AMBIENT COMPENSATED') e indicação de estado 'TRIP'." },
+  { id: "034", nome: "Disjuntor Termomagnético Bipolar (Padrão NEMA)", categoria: "Disjuntores", ano: "Década de 1980", fabricante: "Não identificado", descricao: "Disjuntor termomagnético de dois polos acoplados em caixa de baquelite preta para proteção simultânea de circuitos bifásicos ou fase-neutro." },
+  { id: "035", nome: "Disjuntor Monopolar em Caixa Moldada 15 A", categoria: "Disjuntores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Disjuntor robusto monopolar em caixa moldada de baquelite preta com perfil escalonado e corrente nominal de 15 A gravada na alavanca de acionamento." },
+  { id: "036", nome: "Dispositivo de Proteção Modular DIN (IDR / Disjuntor-Motor)", categoria: "Proteção e Controle", ano: "Década de 1990", fabricante: "Não identificado", descricao: "Dispositivo modular de proteção em invólucro termoplástico bege e branco para fixação em trilho DIN, equipado com bornes embutidos, botão de teste funcional e chave seletora frontal." },
+  { id: "037", nome: "Relé Eletromagnético Industrial Encapsulado", categoria: "Manobra e Controle", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Relé auxiliar de comando com cobertura transparente em acrílico sobre base cinza com parafusos recartilhados de fixação.\nPermite observar a bobina eletromagnética de cobre à esquerda e o conjunto de múltiplas lâminas de contato reversíveis à direita." },
+  { id: "038", nome: "Disjuntor Termomagnético DIN Transparente (Modelo Didático)", categoria: "Disjuntores", ano: "Década de 2000", fabricante: "Não identificado", descricao: "Modelo didático de mini-disjuntor padrão europeu (DIN) com invólucro em policarbonato cristalino.\nExibe integralmente o mecanismo mecânico de disparo livre, a bobina magnética de disparo instantâneo contra curto-circuito e as placas metálicas da câmara de extinção de arco." },
+  { id: "039", nome: "Disjuntor Termomagnético Tripolar 50 A (Padrão NEMA)", categoria: "Disjuntores", ano: "Década de 1980", fabricante: "Não identificado", descricao: "Disjuntor tripolar em baquelite preta com corrente nominal de 50 A marcada na alavanca central e indicações 'LIG' (Ligado) e 'DLG' (Desligado) gravadas no corpo." },
+  { id: "040", nome: "Disjuntor Termomagnético Unipolar (Padrão NEMA)", categoria: "Disjuntores", ano: "Década de 1980", fabricante: "Não identificado", descricao: "Disjuntor termomagnético monopolar em baquelite preta com construção rebitada tradicional para proteção contra sobrecarga e curto-circuito em instalações de baixa tensão." },
+  { id: "041", nome: "Disjuntor Termomagnético NEMA Transparente (Modelo Didático)", categoria: "Disjuntores", ano: "Década de 2000", fabricante: "Não identificado", descricao: "Disjuntor padrão NEMA confeccionado em acrílico/policarbonato transparente para fins educacionais, permitindo visualizar o elemento bimetálico térmico, o enrolamento magnético em cobre e a câmara de arco." },
+  { id: "042", nome: "Disjuntor Termomagnético Unipolar 10 A (Ref. 1170N10)", categoria: "Disjuntores", ano: "1999", fabricante: "Não identificado", descricao: "Disjuntor monopolar padrão NEMA de 10 A em baquelite preta, preservando a etiqueta original de fábrica com código de barras, referência 1170N10 e data de fabricação de julho de 1999." },
+  { id: "043", nome: "Chave Comutadora Rotativa de Painel (CH10)", categoria: "Manobra e Controle", ano: "Década de 1990", fabricante: "Steck", descricao: "Chave seletora rotativa de cames para montagem em porta de painel elétrico, modelo CH10 fabricado pela Steck, dotada de múltiplos estágios de contatos numerados (1, 2, 5, 6) para circuitos de comando e medição." },
+  { id: "044", nome: "Base e Tampa Rosqueável para Fusível Diazed", categoria: "Fusíveis e Seccionamento", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Conjunto completo de proteção por fusível tipo Diazed (DII), composto por base isolante em porcelana branca com bornes parafusados, rosca metálica padrão Edison e tampa roscada de porcelana com visor superior." },
+  { id: "045", nome: "Relé Térmico de Sobrecarga", categoria: "Manobra e Controle", ano: "Década de 1990", fabricante: "Não identificado", descricao: "Relé de sobrecarga bimetálico para proteção de motores elétricos trifásicos, com pinos rígidos inferiores para acoplamento direto em contator, seletor de corrente e botão vermelho de teste/desarme." },
+  { id: "046", nome: "Fusível Industrial Tipo NH (Faca)", categoria: "Fusíveis e Seccionamento", ano: "Década de 1980", fabricante: "Não identificado", descricao: "Fusível limitador de corrente de alta capacidade de ruptura (tipo NH), com corpo cerâmico de seção quadrada, contatos tipo faca em cobre/latão prateado e olhais metálicos para extração com punho saca-fusível." },
+  { id: "047", nome: "Disjuntor Tripolar em Caixa Moldada", categoria: "Disjuntores", ano: "Década de 1970", fabricante: "Não identificado", descricao: "Disjuntor industrial tripolar robusto em caixa moldada de baquelite preta com alavanca central única para manobra simultânea das três fases em quadros gerais de força." },
+  { id: "048", nome: "Contator Eletromagnético / Chave Magnética Antiga", categoria: "Manobra e Controle", ano: "Década de 1960", fabricante: "Não identificado", descricao: "Contator eletromagnético histórico construído sobre base estrutural em celeron/fenolite marrom, com bloco superior em baquelite preta contendo o diagrama esquemático de ligações gravado em relevo na tampa." },
+  { id: "049", nome: "Chave de Partida / Contator em Caixa Blindada", categoria: "Manobra e Controle", ano: "Década de 1960", fabricante: "Fabricação Alemã (VDE)", descricao: "Dispositivo de manobra e proteção de motor em invólucro blindado preto com tampa articulada, botão frontal marrom e placa técnica superior em alemão indicando curvas de frequência de manobras ('Schaltungen je Stunde') sob norma VDE." },
+  { id: "050", nome: "Caixa de Medição / Derivação com Tampa Transparente", categoria: "Instalações e Invólucros", ano: "Década de 1990", fabricante: "Não identificado", descricao: "Caixa de proteção e inspeção com base em termoplástico preto, tampa em policarbonato transparente para leitura visual sem abertura e eletroduto corrugado flexível acoplado por conector metálico lateral." },
+  { id: "051", nome: "Conjunto Tomada e Plugue Industrial à Prova de Explosão (Ex)", categoria: "Instalações e Invólucros", ano: "Década de 2000", fabricante: "Maccomevap", descricao: "Conjunto industrial certificado para atmosferas explosivas (marcação Ex em relevo), composto por tomada de sobrepor com chave de bloqueio mecânico intertravada e plugue amarelo padrão IEC acoplado." },
+  { id: "052", nome: "Chave Seccionadora de Faca Tripolar com Fusíveis Cartucho", categoria: "Fusíveis e Seccionamento", ano: "Década de 1950", fabricante: "Não identificado", descricao: "Relíquia das instalações elétricas industriais: chave seccionadora tripolar de faca montada sobre base de madeira envernizada e placa isolante.\nPossui três lâminas de cobre acionadas por travessa isolante preta, três porta-fusíveis cartucho renováveis (250 V / 30 A) e cabos flexíveis com pinos banana para ensaios didáticos." },
+  { id: "053", nome: "Disjuntor Termomagnético Bipolar (M 551 +)", categoria: "Disjuntores", ano: "Década de 1980", fabricante: "General Electric (GE)", descricao: "Disjuntor bipolar da General Electric do Brasil S.A. em caixa de baquelite preta, preservando a etiqueta superior original de especificações técnicas e marcação 'M 551 +' na lateral." },
+  { id: "054", nome: "Disjuntor Termomagnético Unipolar (Padrão NEMA)", categoria: "Disjuntores", ano: "Década de 1980", fabricante: "Não identificado", descricao: "Disjuntor termomagnético monopolar em caixa moldada de baquelite preta com rebites metálicos aparentes, representativo do padrão construtivo dominante nas instalações prediais brasileiras até o final do século XX." },
+  { id: "055", nome: "Disjuntor Termomagnético Unipolar 70 A", categoria: "Disjuntores", ano: "Década de 1980", fabricante: "General Electric (GE)", descricao: "Disjuntor monopolar de elevada corrente nominal (70 A marcados na alavanca) fabricado pela General Electric, com compensação térmica ambiente a 40°C e gabarito de decapagem 'STRIP GAGE'." },
+  { id: "056", nome: "Disjuntor Termomagnético Unipolar (Ambient Compensated)", categoria: "Disjuntores", ano: "Década de 1980", fabricante: "General Electric (GE)", descricao: "Disjuntor monopolar GE em baquelite preta da série Ambient Compensated (40°C), utilizado na proteção de circuitos alimentadores e ramais de distribuição." },
+  { id: "057", nome: "Disjuntor Termomagnético Unipolar (Padrão NEMA)", categoria: "Disjuntores", ano: "Década de 1980", fabricante: "Não identificado", descricao: "Disjuntor termomagnético monopolar padrão NEMA em baquelite preta com nervuras laterais de reforço mecânico e dissipação térmica." },
+  { id: "058", nome: "Disjuntor Termomagnético Unipolar (Padrão NEMA)", categoria: "Disjuntores", ano: "Década de 1980", fabricante: "Não identificado", descricao: "Disjuntor termomagnético monopolar em baquelite preta com alavanca simples perfurada para inserção de trava ou cadeado de bloqueio." },
+  { id: "059", nome: "Disjuntor Termomagnético Unipolar 15 A (Ref. 1170N15)", categoria: "Disjuntores", ano: "1999", fabricante: "Não identificado", descricao: "Disjuntor monopolar padrão NEMA de 15 A em baquelite preta com etiqueta de rastreabilidade contendo código de barras, referência 1170N15 e data de fabricação de abril de 1999." },
+  { id: "060", nome: "Módulo Auxiliar / Bloco de Contatos de Comando", categoria: "Manobra e Controle", ano: "Década de 1990", fabricante: "Não identificado", descricao: "Bloco modular de contatos auxiliares ou módulo eletrônico de acoplamento para sistemas de comando e automação industrial, com encaixes rápidos superiores e conectores múltiplos." }
+];
+
+function getCategorySVG(categoria, sizeClass = "w-24 h-24") {
+  const svgs = {
+    "Isoladores": `<svg class="${sizeClass}" viewBox="0 0 120 120" fill="none"><line x1="60" y1="12" x2="60" y2="108" stroke="#ffd23f" stroke-width="2" stroke-dasharray="3 3" opacity="0.5"/><rect x="46" y="18" width="28" height="10" rx="5" fill="#1f2937" stroke="#ffd23f" stroke-width="2"/><ellipse cx="60" cy="40" rx="36" ry="8" fill="#131822" stroke="#ffd23f" stroke-width="2"/><ellipse cx="60" cy="58" rx="42" ry="9" fill="#131822" stroke="#ffd23f" stroke-width="2"/><ellipse cx="60" cy="76" rx="36" ry="8" fill="#131822" stroke="#ffd23f" stroke-width="2"/><rect x="52" y="84" width="16" height="22" rx="2" fill="#1f2937" stroke="#8b95a5" stroke-width="2"/></svg>`,
+    "Buchas e Isoladores": `<svg class="${sizeClass}" viewBox="0 0 120 120" fill="none"><line x1="60" y1="8" x2="60" y2="112" stroke="#ffd23f" stroke-width="3"/><rect x="48" y="22" width="24" height="36" rx="4" fill="#131822" stroke="#ffd23f" stroke-width="2"/><ellipse cx="60" cy="32" rx="22" ry="4" stroke="#ffd23f" stroke-width="1.5"/><ellipse cx="60" cy="44" rx="22" ry="4" stroke="#ffd23f" stroke-width="1.5"/><rect x="30" y="58" width="60" height="10" rx="3" fill="#1f2937" stroke="#ffd23f" stroke-width="2"/><rect x="46" y="68" width="28" height="30" rx="3" fill="#131822" stroke="#8b95a5" stroke-width="2"/></svg>`,
+    "Disjuntores": `<svg class="${sizeClass}" viewBox="0 0 120 120" fill="none"><rect x="32" y="20" width="56" height="80" rx="8" fill="#131822" stroke="#ffd23f" stroke-width="2"/><rect x="42" y="32" width="36" height="26" rx="4" fill="#1f2937" stroke="#8b95a5" stroke-width="1.5"/><rect x="53" y="26" width="14" height="22" rx="3" fill="#ffd23f"/><circle cx="46" cy="76" r="4" stroke="#ffd23f" stroke-width="2"/><circle cx="74" cy="76" r="4" stroke="#ffd23f" stroke-width="2"/><path d="M44 90h32" stroke="#8b95a5" stroke-width="2" stroke-linecap="round"/></svg>`,
+    "Manobra e Controle": `<svg class="${sizeClass}" viewBox="0 0 120 120" fill="none"><rect x="24" y="26" width="72" height="68" rx="8" fill="#131822" stroke="#ffd23f" stroke-width="2"/><circle cx="60" cy="60" r="20" fill="#1f2937" stroke="#ffd23f" stroke-width="2"/><path d="M48 72L72 48" stroke="#ffd23f" stroke-width="3" stroke-linecap="round"/><circle cx="36" cy="38" r="2.5" fill="#8b95a5"/><circle cx="84" cy="38" r="2.5" fill="#8b95a5"/><circle cx="36" cy="82" r="2.5" fill="#8b95a5"/><circle cx="84" cy="82" r="2.5" fill="#8b95a5"/></svg>`,
+    "Fusíveis e Seccionamento": `<svg class="${sizeClass}" viewBox="0 0 120 120" fill="none"><path d="M16 60h22M82 60h22" stroke="#ffd23f" stroke-width="3" stroke-linecap="round"/><rect x="38" y="42" width="44" height="36" rx="4" fill="#131822" stroke="#ffd23f" stroke-width="2"/><path d="M44 60c6-10 10-10 16 0s10 10 16 0" stroke="#ffd23f" stroke-width="2" stroke-linecap="round"/><rect x="32" y="48" width="6" height="24" rx="1" fill="#8b95a5"/><rect x="82" y="48" width="6" height="24" rx="1" fill="#8b95a5"/></svg>`,
+    "Proteção e Controle": `<svg class="${sizeClass}" viewBox="0 0 120 120" fill="none"><rect x="28" y="22" width="64" height="76" rx="8" fill="#131822" stroke="#ffd23f" stroke-width="2"/><rect x="40" y="34" width="16" height="16" rx="3" fill="#ffd23f"/><circle cx="72" cy="42" r="8" stroke="#ffd23f" stroke-width="2"/><path d="M40 66h40M40 78h28" stroke="#8b95a5" stroke-width="2" stroke-linecap="round"/></svg>`,
+    "Instalações e Invólucros": `<svg class="${sizeClass}" viewBox="0 0 120 120" fill="none"><polygon points="60,18 96,39 96,81 60,102 24,81 24,39" fill="#131822" stroke="#ffd23f" stroke-width="2"/><text x="60" y="68" text-anchor="middle" fill="#ffd23f" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="28">Ex</text></svg>`
+  };
+  return svgs[categoria] || svgs["Disjuntores"];
+}
+
+let activeCategory = "Todos";
+let searchQuery = "";
+let filteredItems = [...EQUIPAMENTOS];
+let currentModalIndex = -1;
+
+const gradeEl = document.getElementById("grade");
+const chipsEl = document.getElementById("chips");
+const contadorEl = document.getElementById("contador");
+const buscaEl = document.getElementById("busca");
+const emptyStateEl = document.getElementById("empty-state");
+
+function buildQRCodeSVG(text, cellSize = 3) {
+  try {
+    const qr = qrcode(0, 'M');
+    qr.addData(text);
+    qr.make();
+    return qr.createSvgTag({ cellSize, margin: 0, scalable: true });
+  } catch (e) {
+    return `<div class="text-[10px] text-black font-mono text-center">QR</div>`;
+  }
+}
+
+function getItemShareURL(id) {
+  const url = new URL(window.location.href);
+  url.searchParams.set("id", id);
+  return url.toString();
+}
+
+function renderChips() {
+  const categories = ["Todos", ...new Set(EQUIPAMENTOS.map(item => item.categoria))];
+  chipsEl.innerHTML = categories.map(cat => {
+    const count = cat === "Todos" ? EQUIPAMENTOS.length : EQUIPAMENTOS.filter(i => i.categoria === cat).length;
+    const isActive = activeCategory === cat;
+    return `
+      <button type="button" data-cat="${cat}" role="tab" aria-selected="${isActive}"
+        class="shrink-0 inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all cursor-pointer border ${
+          isActive ? "bg-electric text-bg border-electric font-semibold shadow-sm" : "bg-surface text-gray-300 border-border hover:border-electric/50 hover:text-white"
+        }">
+        <span>${cat}</span>
+        <span class="font-mono text-[11px] px-1.5 py-0.5 rounded-md ${isActive ? "bg-bg/20 text-bg" : "bg-bg text-muted"}">${count}</span>
+      </button>`;
+  }).join("");
+
+  chipsEl.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      activeCategory = btn.dataset.cat;
+      renderChips();
+      applyFilters();
+    });
+  });
+}
+
+function applyFilters() {
+  const q = searchQuery.trim().toLowerCase();
+  filteredItems = EQUIPAMENTOS.filter(item => {
+    const matchesCat = activeCategory === "Todos" || item.categoria === activeCategory;
+    if (!matchesCat) return false;
+    if (!q) return true;
+    return [item.id, item.nome, item.categoria, item.fabricante, item.ano, item.descricao].join(" ").toLowerCase().includes(q);
+  });
+  renderGrid();
+}
+
+function renderGrid() {
+  contadorEl.textContent = `Exibindo ${filteredItems.length} de ${EQUIPAMENTOS.length} equipamentos catalogados`;
+  if (filteredItems.length === 0) {
+    gradeEl.innerHTML = "";
+    gradeEl.classList.add("hidden");
+    emptyStateEl.classList.remove("hidden");
+    return;
+  }
+  emptyStateEl.classList.add("hidden");
+  gradeEl.classList.remove("hidden");
+
+  gradeEl.innerHTML = filteredItems.map((item) => `
+    <article data-id="${item.id}" tabindex="0" role="button" aria-label="Abrir ficha da peça ${item.id}: ${item.nome}"
+      class="group bg-surface hover:bg-surfaceHover border border-border hover:border-electric/60 rounded-2xl overflow-hidden flex flex-col transition-all duration-200 hover:-translate-y-1 shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-electric">
+      <div class="relative h-44 bg-bg/90 border-b border-border flex items-center justify-center overflow-hidden">
+        <span class="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-lg bg-surface/90 backdrop-blur-sm border border-border font-mono text-xs font-bold text-electric group-hover:bg-electric group-hover:text-bg transition-colors">
+          #${item.id}
+        </span>
+        <span class="absolute top-3 right-3 z-10 font-mono text-[11px] text-muted bg-bg/85 backdrop-blur-sm px-2 py-0.5 rounded-md border border-border/60">
+          ${item.ano}
+        </span>
+        <img src="images/${item.id}.jpg" alt="${item.nome}" loading="lazy"
+          class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+          onerror="this.outerHTML = '<div class=\\'p-4 transform group-hover:scale-105 transition-transform duration-300\\'>' + getCategorySVG('${item.categoria}', 'w-24 h-24') + '</div>'">
+      </div>
+      <div class="p-5 flex-1 flex flex-col justify-between gap-4">
+        <div>
+          <div class="font-mono text-[11px] uppercase tracking-wider text-electric/90 mb-1.5">${item.categoria}</div>
+          <h2 class="font-bold text-base sm:text-lg text-white group-hover:text-electric transition-colors leading-snug line-clamp-2">${item.nome}</h2>
+        </div>
+        <div class="pt-3 border-t border-border/70 flex items-center justify-between gap-2 text-xs">
+          <span class="text-muted truncate" title="${item.fabricante}">${item.fabricante}</span>
+          <span class="font-mono text-electric shrink-0 inline-flex items-center gap-1">Ficha <span class="group-hover:translate-x-0.5 transition-transform">→</span></span>
+        </div>
+      </div>
+    </article>`).join("");
+
+  gradeEl.querySelectorAll("article").forEach(card => {
+    const open = () => openItemModal(card.dataset.id);
+    card.addEventListener("click", open);
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+    });
+  });
+}
+
+function openItemModal(id, updateHistory = true) {
+  const index = EQUIPAMENTOS.findIndex(i => i.id === id);
+  if (index === -1) return;
+  currentModalIndex = index;
+  const item = EQUIPAMENTOS[index];
+
+  document.getElementById("modal-badge-id").textContent = `#${item.id}`;
+  document.getElementById("modal-badge-cat").textContent = item.categoria;
+  document.getElementById("modal-title").textContent = item.nome;
+  document.getElementById("modal-meta-id").textContent = `Etiqueta ${item.id}`;
+  document.getElementById("modal-meta-ano").textContent = item.ano;
+  document.getElementById("modal-meta-fab").textContent = item.fabricante;
+  document.getElementById("modal-ref-file").textContent = `ARQUIVO: images/${item.id}.jpg`;
+  document.getElementById("modal-qr-id").textContent = `#${item.id}`;
+  document.getElementById("modal-position").textContent = `Peça ${index + 1} de ${EQUIPAMENTOS.length}`;
+
+  document.getElementById("modal-illustration").innerHTML = `
+    <img src="images/${item.id}.jpg" alt="${item.nome}" class="w-full h-full object-contain"
+      onerror="this.outerHTML = '<div class=\\'w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center\\'>' + getCategorySVG('${item.categoria}', 'w-full h-full') + '</div>'">`;
+
+  document.getElementById("modal-desc").innerHTML = item.descricao.split("\n").filter(Boolean).map(p => `<p>${p}</p>`).join("");
+  document.getElementById("modal-qrcode").innerHTML = buildQRCodeSVG(getItemShareURL(item.id), 2);
+
+  const modal = document.getElementById("item-modal");
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+  document.body.style.overflow = "hidden";
+
+  if (updateHistory) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("id", item.id);
+    window.history.replaceState({}, "", url);
+  }
+}
+
+function closeItemModal() {
+  const modal = document.getElementById("item-modal");
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+  document.body.style.overflow = "";
+  const url = new URL(window.location.href);
+  url.searchParams.delete("id");
+  window.history.replaceState({}, "", url);
+}
+
+function openQRSheetModal() {
+  const container = document.getElementById("qr-grid-container");
+  container.innerHTML = EQUIPAMENTOS.map(item => `
+    <div class="qr-label-card p-4 rounded-xl bg-bg border border-border flex items-center gap-4">
+      <div class="w-24 h-24 bg-white p-1.5 rounded-lg shrink-0 flex items-center justify-center">${buildQRCodeSVG(getItemShareURL(item.id), 3)}</div>
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="px-2 py-0.5 rounded bg-electric text-bg font-mono font-bold text-xs">#${item.id}</span>
+          <span class="font-mono text-[10px] uppercase text-muted truncate">Museu da Elétrica · UERJ</span>
+        </div>
+        <h3 class="font-bold text-sm text-white leading-snug line-clamp-2 mb-1">${item.nome}</h3>
+        <p class="font-mono text-[11px] text-muted truncate">${item.categoria} · ${item.ano}</p>
+      </div>
+    </div>`).join("");
+
+  const backdrop = document.getElementById("qr-modal-backdrop");
+  backdrop.classList.remove("hidden");
+  backdrop.classList.add("flex");
+  document.body.style.overflow = "hidden";
+}
+
+function closeQRSheetModal() {
+  const backdrop = document.getElementById("qr-modal-backdrop");
+  backdrop.classList.add("hidden");
+  backdrop.classList.remove("flex");
+  document.body.style.overflow = "";
+}
+
+let toastTimer;
+function showToast(msg) {
+  const toast = document.getElementById("toast");
+  document.getElementById("toast-message").textContent = msg;
+  toast.classList.remove("hidden");
+  toast.classList.add("flex");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toast.classList.add("hidden"); toast.classList.remove("flex"); }, 2800);
+}
+
+function copyCurrentItemLink() {
+  if (currentModalIndex < 0) return;
+  const item = EQUIPAMENTOS[currentModalIndex];
+  const tempInput = document.createElement("textarea");
+  tempInput.value = getItemShareURL(item.id);
+  document.body.appendChild(tempInput);
+  tempInput.select();
+  try { document.execCommand("copy"); showToast(`Link da peça #${item.id} copiado!`); }
+  catch (err) { showToast("Não foi possível copiar o link."); }
+  document.body.removeChild(tempInput);
+}
+
+buscaEl.addEventListener("input", (e) => { searchQuery = e.target.value; applyFilters(); });
+document.getElementById("btn-clear-filters").addEventListener("click", () => { activeCategory = "Todos"; searchQuery = ""; buscaEl.value = ""; renderChips(); applyFilters(); });
+document.getElementById("brand-reset").addEventListener("click", (e) => { e.preventDefault(); activeCategory = "Todos"; searchQuery = ""; buscaEl.value = ""; renderChips(); applyFilters(); closeItemModal(); });
+document.getElementById("btn-close-modal").addEventListener("click", closeItemModal);
+document.getElementById("item-modal").addEventListener("click", (e) => { if (e.target.id === "item-modal") closeItemModal(); });
+document.getElementById("btn-prev-item").addEventListener("click", () => { openItemModal(EQUIPAMENTOS[(currentModalIndex - 1 + EQUIPAMENTOS.length) % EQUIPAMENTOS.length].id); });
+document.getElementById("btn-next-item").addEventListener("click", () => { openItemModal(EQUIPAMENTOS[(currentModalIndex + 1) % EQUIPAMENTOS.length].id); });
+document.getElementById("btn-copy-link").addEventListener("click", copyCurrentItemLink);
+document.getElementById("btn-open-qr-sheet").addEventListener("click", openQRSheetModal);
+document.getElementById("btn-close-qr-sheet").addEventListener("click", closeQRSheetModal);
+document.getElementById("qr-modal-backdrop").addEventListener("click", (e) => { if (e.target.id === "qr-modal-backdrop") closeQRSheetModal(); });
+document.getElementById("btn-print-qrs").addEventListener("click", () => window.print());
+
+document.addEventListener("keydown", (e) => {
+  const itemModalOpen = !document.getElementById("item-modal").classList.contains("hidden");
+  const qrModalOpen = !document.getElementById("qr-modal-backdrop").classList.contains("hidden");
+  if (e.key === "Escape") { if (itemModalOpen) closeItemModal(); if (qrModalOpen) closeQRSheetModal(); }
+  else if (itemModalOpen && e.key === "ArrowLeft") { openItemModal(EQUIPAMENTOS[(currentModalIndex - 1 + EQUIPAMENTOS.length) % EQUIPAMENTOS.length].id); }
+  else if (itemModalOpen && e.key === "ArrowRight") { openItemModal(EQUIPAMENTOS[(currentModalIndex + 1) % EQUIPAMENTOS.length].id); }
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+  renderChips();
+  applyFilters();
+  const requestedId = new URLSearchParams(window.location.search).get("id");
+  if (requestedId) {
+    const normalizedId = requestedId.padStart(3, "0");
+    if (EQUIPAMENTOS.some(i => i.id === normalizedId)) openItemModal(normalizedId, false);
+  }
+});
+</script>
+</body>
+</html>
